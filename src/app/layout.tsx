@@ -1,18 +1,15 @@
-import { NextResponse } from 'next/server';
-import type { NextRequest } from 'next/server';
+import type { Metadata } from "next";
+import "./globals.css";
 
-export function middleware(request: NextRequest) {
-  const isLoggedIn = request.cookies.has('sb-access-token');
-
-  const protectedPaths = ['/dashboard', '/records'];
-
-  if (protectedPaths.some((path) => request.nextUrl.pathname.startsWith(path)) && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
-  return NextResponse.next();
-}
-
-export const config = {
-  matcher: ['/dashboard/:path*', '/records/:path*'],
+export const metadata: Metadata = {
+  title: "学習記録アプリ",
+  description: "学習内容を記録するアプリ",
 };
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  return (
+    <html lang="ja">
+      <body>{children}</body>
+    </html>
+  );
+}
