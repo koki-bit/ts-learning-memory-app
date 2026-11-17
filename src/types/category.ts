@@ -1,0 +1,1 @@
+export type Category =  "typescript" | "react" | "nextjs" | "sql";
