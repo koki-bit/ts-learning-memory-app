@@ -1,38 +1,15 @@
-import { Category } from "@/types/category";
-import { StudyRecord } from "@/types/studyRecord";
-// まずはReactのuseStateなどは使わず、TypeScriptの関数と配列操作だけで実装する
+import { sampleRecords } from "@/data/sampleRecords";
+import { addStudyRecord, filterByCategory } from "@/lib/studyRecordOperations";
 
-const sampleRecords: StudyRecord[] = [
+const addedRecords = addStudyRecord(sampleRecords, 
   {
-    id : "sample-1",
-    title : "sampleTitle1",
-    category : "typescript",
+    id : "addedId-1",
+    title : "addedTitle-1",
+    category : "nextjs",
     minutes : 60
-  },
-  {
-    id : "sample-2",
-    title : "sampleTitle2",
-    category : "react",
-    minutes : 90,
-    memo : "Samplememo"
-  }
-];
+  });
+const filteredRecords = filterByCategory(sampleRecords, "typescript");
 
-const addStudyRecord = (
-  records: StudyRecord[],
-  newRecord: StudyRecord
-): StudyRecord[] => {
-  const newRecords = [...records, newRecord];
-  return newRecords;
-}
-
-const filterByCategory = (
-  records: StudyRecord[],
-  category: Category,
-): StudyRecord[] => {
-  const filterRecords = records.filter((record) => record.category === category);
-  return filterRecords;
-}
 
 export default function Home() {
   return (
@@ -49,6 +26,36 @@ export default function Home() {
             
             {sampleRecord.memo !== undefined && (
               <p>{sampleRecord.memo}</p>
+            )}
+          </li>
+        ))}
+
+        {filteredRecords.map((filteredRecord) => (
+          <li key={filteredRecord.id}>
+            <p>{filteredRecord.title}</p>
+            <p>{filteredRecord.category}</p>
+
+            {filteredRecord.minutes >= 0 && (
+              <p>{filteredRecord.minutes}</p>
+            )}
+            
+            {filteredRecord.memo !== undefined && (
+              <p>{filteredRecord.memo}</p>
+            )}
+          </li>
+        ))}
+
+        {addedRecords.map((addedRecord) => (
+          <li key={addedRecord.id}>
+            <p>{addedRecord.title}</p>
+            <p>{addedRecord.category}</p>
+
+            {addedRecord.minutes >= 0 && (
+              <p>{addedRecord.minutes}</p>
+            )}
+            
+            {addedRecord.memo !== undefined && (
+              <p>{addedRecord.memo}</p>
             )}
           </li>
         ))}
