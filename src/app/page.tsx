@@ -1,5 +1,5 @@
 import { sampleRecords } from "@/data/sampleRecords";
-import { addStudyRecord, filterByCategory } from "@/lib/studyRecordOperations";
+import { addStudyRecord, filterByCategory, findById,getTotalMinutes } from "@/lib/studyRecordOperations";
 
 const addedRecords = addStudyRecord(sampleRecords, 
   {
@@ -8,58 +8,66 @@ const addedRecords = addStudyRecord(sampleRecords,
     category : "nextjs",
     minutes : 60
   });
-const filteredRecords = filterByCategory(sampleRecords, "typescript");
-
+const filteredCategoryRecords = filterByCategory(sampleRecords, "typescript");
+const foundRecord = findById(sampleRecords, "sa");
+const totalMinutes = getTotalMinutes(sampleRecords);
+const categoryTotalMinutes = getTotalMinutes(filteredCategoryRecords);
 
 export default function Home() {
   return (
-    <div>
-      <ul>
-        {sampleRecords.map((sampleRecord) => (
-          <li key={sampleRecord.id}>
-            <p>{sampleRecord.title}</p>
-            <p>{sampleRecord.category}</p>
+    <main>
+      <h1>学習記録の処理結果</h1>
 
-            {sampleRecord.minutes >= 0 && (
-              <p>{sampleRecord.minutes}</p>
-            )}
-            
-            {sampleRecord.memo !== undefined && (
-              <p>{sampleRecord.memo}</p>
-            )}
-          </li>
-        ))}
+      <section>
+        <h2>元の学習記録</h2>
+        <ul>
+          {sampleRecords.map((record) => (
+            <li key={record.id}>
+              {record.title} / {record.category} / {record.minutes}分 / {record.memo !== undefined && record.memo}
+            </li>
+          ))}
+        </ul>
+      </section>
 
-        {filteredRecords.map((filteredRecord) => (
-          <li key={filteredRecord.id}>
-            <p>{filteredRecord.title}</p>
-            <p>{filteredRecord.category}</p>
+      <section>
+        <h2>カテゴリで絞り込んだ結果（typescript）</h2>
+        <ul>
+          {filteredCategoryRecords.map((record) => (
+            <li key={record.id}>
+              {record.title} / {record.category} / {record.minutes}分 / {record.memo !== undefined && record.memo}
+            </li>
+          ))}
+        </ul>
+      </section>
 
-            {filteredRecord.minutes >= 0 && (
-              <p>{filteredRecord.minutes}</p>
-            )}
-            
-            {filteredRecord.memo !== undefined && (
-              <p>{filteredRecord.memo}</p>
-            )}
-          </li>
-        ))}
+      <section>
+        <h2>記録を追加した結果</h2>
+        <ul>
+          {addedRecords.map((record) => (
+            <li key={record.id}>
+              {record.title} / {record.category} / {record.minutes}分 / {record.memo !== undefined && record.memo}
+            </li>
+          ))}
+        </ul>
+      </section>
 
-        {addedRecords.map((addedRecord) => (
-          <li key={addedRecord.id}>
-            <p>{addedRecord.title}</p>
-            <p>{addedRecord.category}</p>
+      <section>
+        <h2>IDで検索した結果</h2>
+        {foundRecord !== undefined ? (
+          <p>
+            {foundRecord.title} / {foundRecord.category} /
+            {foundRecord.minutes}分 / {foundRecord.memo !== undefined && foundRecord.memo}
+          </p>
+        ) : (
+          <p>該当する学習記録がありません</p>
+        )}
+      </section>
 
-            {addedRecord.minutes >= 0 && (
-              <p>{addedRecord.minutes}</p>
-            )}
-            
-            {addedRecord.memo !== undefined && (
-              <p>{addedRecord.memo}</p>
-            )}
-          </li>
-        ))}
-      </ul>
-    </div>
+      <section>
+        <h2>学習時間の合計</h2>
+        <p>全記録：{totalMinutes}分</p>
+        <p>typescript：{categoryTotalMinutes}分</p>
+      </section>
+    </main>
   );
 }
