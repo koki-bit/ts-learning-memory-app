@@ -23,7 +23,7 @@ export default function Home() {
         <ul>
           {sampleRecords.map((record) => (
             <li key={record.id}>
-              {record.title} / {record.category} / {record.minutes}分
+              {record.title} / {record.category} / {record.minutes}分 / {record.memo !== undefined && record.memo}
             </li>
           ))}
         </ul>
@@ -34,7 +34,7 @@ export default function Home() {
         <ul>
           {filteredCategoryRecords.map((record) => (
             <li key={record.id}>
-              {record.title} / {record.category} / {record.minutes}分
+              {record.title} / {record.category} / {record.minutes}分 / {record.memo !== undefined && record.memo}
             </li>
           ))}
         </ul>
@@ -45,7 +45,7 @@ export default function Home() {
         <ul>
           {addedRecords.map((record) => (
             <li key={record.id}>
-              {record.title} / {record.category} / {record.minutes}分
+              {record.title} / {record.category} / {record.minutes}分 / {record.memo !== undefined && record.memo}
             </li>
           ))}
         </ul>
@@ -56,7 +56,7 @@ export default function Home() {
         {foundRecord !== undefined ? (
           <p>
             {foundRecord.title} / {foundRecord.category} /
-            {foundRecord.minutes}分
+            {foundRecord.minutes}分 / {foundRecord.memo !== undefined && foundRecord.memo}
           </p>
         ) : (
           <p>該当する学習記録がありません</p>
